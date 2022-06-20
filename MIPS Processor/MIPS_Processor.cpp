@@ -1,6 +1,6 @@
-#include "MIPS_VHDL.h"
+#include "MIPS_Processor.h"
  
-void MIPS_VHDL::Behavioral()
+void MIPS_Processor::Behavioral()
 {
     sc_signal <sc_lv<16>> pc_current;
     sc_signal <sc_lv<16>> pc_next;
