@@ -1,6 +1,6 @@
-#include Untilted-1
+#include "data_memory_systemc.h"
 
-void Data_Memory::Behavioral()
+void data_memory_systemc::Behavioral()
 {
     sc_signal <sc_lv<8>> > ram_addr;
     sc_signal <int> i;
