@@ -1,6 +1,6 @@
 #include "systemc.h"
 
-SC_MODULE(register_file_VHDL)
+SC_MODULE(register_file_systemc)
 {
 	sc_in<sc_logic> clk;
 	sc_in<sc_logic> rst;
@@ -13,7 +13,7 @@ SC_MODULE(register_file_VHDL)
 	sc_in<sc_lv<3>>reg_read_addr_2;
 	sc_out<sc_lv<16>>reg_read_data_2;
 
-	SC_CTOR(register_file_VHDL)
+	SC_CTOR(register_file_systemc)
 	{	
 		SC_METHOD(Behavioral);
 		sensitive << clk << rst;
