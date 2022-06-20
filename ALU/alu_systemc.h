@@ -1,4 +1,6 @@
-SC_MODULE(ALU_VHDL)
+#include "system.c"
+
+SC_MODULE(alu_systemc)
 {
     sc_in <sc_lv<16>> a; // src1
     sc_in <sc_lv<16>> b; // src2
