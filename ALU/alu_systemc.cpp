@@ -1,6 +1,6 @@
-#include "MIPS_ALU.h"
+#include "alu_systemc.h"
  
-void ALU_VHDL::Behavioral()
+void alu_systemc::Behavioral()
 {
     sc_signal <sc_lv<16>> result;
 
