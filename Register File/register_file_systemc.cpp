@@ -1,6 +1,6 @@
-#include "register_file_VHDL.h"
+#include "register_file_systemc.h"
 
-void register_file_VHDL::Behavioral()
+void register_file_systemc::Behavioral()
 {
 	typedef <sc_lv<16>> reg_type[8];
 	sc_signal <reg_type> reg_array;
