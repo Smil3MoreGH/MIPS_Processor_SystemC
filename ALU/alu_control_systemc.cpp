@@ -1,4 +1,4 @@
-#include "MIPS_ALU.h"
+#include "alu_control_systemc.h"
  
 void alu_control_systemc::Behavioral()
 {
