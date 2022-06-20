@@ -1,4 +1,4 @@
-#include"Instruction_Memory_VHDL"
+#include "instruction_memory_systemc"
 
 void Behavioral ::signal rom_addr()
 {
