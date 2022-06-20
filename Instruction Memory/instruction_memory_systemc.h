@@ -8,7 +8,7 @@ SC_MODLUE(instruction_memory_systemc)
 	SC_CTOR(instruction_memory_systemc)
 	{
 		SC_METHOD(Behavioral);
-		sensitivity << pc;
+		sensitive << pc;
 	}
 	
 	void Behavioral();
