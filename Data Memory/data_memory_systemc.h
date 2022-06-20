@@ -1,4 +1,4 @@
-#include <systemc>
+#include "system.c"
 
 SC_MODULE(data_memory_systemc)
 {
