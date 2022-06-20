@@ -1,6 +1,6 @@
-﻿#include "control_unit_VHDL"
+#include "control_unit_systemc.h"
 
-void control_unit_VHD::Behavioral()
+void control_unit_systemc::Behavioral()
 {
 
     if(reset=1)
