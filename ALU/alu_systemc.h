@@ -1,4 +1,4 @@
-#include <systemc>
+#include "systemc"
 
 SC_MODULE(alu_systemc)
 {
