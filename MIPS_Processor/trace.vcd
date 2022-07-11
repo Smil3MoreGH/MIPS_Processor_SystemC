@@ -1,0 +1,50 @@
+$date
+     Jul 11, 2022       15:42:56
+$end
+
+$version
+ SystemC 2.3.3-Accellera --- Jul 10 2022 11:05:37
+$end
+
+$timescale
+     1 ns
+$end
+
+$scope module SystemC $end
+$var wire   16  aaaaa  a [15:0]  $end
+$var wire   16  aaaab  b [15:0]  $end
+$var wire   16  aaaac  alu_result [15:0]  $end
+$var wire    3  aaaad  alu_control [2:0]  $end
+$var wire    1  aaaae  zero       $end
+$upscope $end
+$enddefinitions  $end
+
+$comment
+All initial values are dumped below at time 0 sec = 0 timescale units.
+$end
+
+$dumpvars
+b1 aaaaa
+b1 aaaab
+b10 aaaac
+b0 aaaad
+0aaaae
+$end
+
+#10
+b0 aaaac
+b1 aaaad
+
+#20
+b1 aaaac
+b10 aaaad
+1aaaae
+
+#30
+b11 aaaad
+0aaaae
+
+#40
+b0 aaaac
+b100 aaaad
+
