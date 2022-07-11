@@ -8,7 +8,7 @@
 
 void dmem_systemc::Behavioral()
 {
-	if (ck.read() == '0' && ck.event())
+	if (clk.read() == '0' && clk.event())
 	{
 		if (MemWrite == '1')
 		{

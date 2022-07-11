@@ -4,6 +4,7 @@
  *  Created on: Jul 10, 2022
  *      Author: paul
  */
+
 #include "systemc.h"
 
 SC_MODULE(MIPS_Processor)
@@ -17,9 +18,10 @@ SC_MODULE(MIPS_Processor)
 
     SC_CTOR(MIPS_Processor)
     {
-        SC_METHOD(Behavioral);
+
+        SC_METHOD(main);
         sensitive << clk << reset;
     }
 
-    void Behavioral();
+    void main();
 };

@@ -13,7 +13,7 @@ SC_MODULE(dmem_systemc)
 	sc_in<sc_lv<16>>write_data;
 	sc_in<sc_logic>MemWrite;
 	sc_in<sc_logic>MemRead;
-	sc_in<sc_logic>ck;
+	sc_in<sc_logic>clk;
 	sc_out<sc_lv<16>>read_data;
 	sc_lv<16>data_mem[16];
 
@@ -34,7 +34,7 @@ SC_MODULE(dmem_systemc)
 
 		SC_METHOD(Behavioral);
 		sensitive << address ;
-		sensitive_neg << ck;
+		sensitive_neg << clk;
 	}
 
     void Behavioral();

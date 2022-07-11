@@ -101,7 +101,13 @@ src/MIPS_Processor.o: ../src/MIPS_Processor.cpp ../src/MIPS_Processor.h \
  /usr/local/systemc23x/include/sysc/utils/sc_utils_ids.h \
  /usr/local/systemc23x/include/sysc/utils/sc_pvector.h \
  /usr/local/systemc23x/include/sysc/utils/sc_string_view.h \
- /usr/local/systemc23x/include/sysc/utils/sc_vector.h
+ /usr/local/systemc23x/include/sysc/utils/sc_vector.h \
+ ../src/instruction_memory_systemc.cpp \
+ ../src/instruction_memory_systemc.h ../src/control_unit_systemc.cpp \
+ ../src/control_unit_systemc.h ../src/register_file_systemc.cpp \
+ ../src/register_file_systemc.h ../src/alu_control_systemc.cpp \
+ ../src/alu_control_systemc.h ../src/alu_systemc.cpp ../src/alu_systemc.h \
+ ../src/dmem_systemc.cpp ../src/dmem_systemc.h
 
 ../src/MIPS_Processor.h:
 
@@ -310,3 +316,27 @@ src/MIPS_Processor.o: ../src/MIPS_Processor.cpp ../src/MIPS_Processor.h \
 /usr/local/systemc23x/include/sysc/utils/sc_string_view.h:
 
 /usr/local/systemc23x/include/sysc/utils/sc_vector.h:
+
+../src/instruction_memory_systemc.cpp:
+
+../src/instruction_memory_systemc.h:
+
+../src/control_unit_systemc.cpp:
+
+../src/control_unit_systemc.h:
+
+../src/register_file_systemc.cpp:
+
+../src/register_file_systemc.h:
+
+../src/alu_control_systemc.cpp:
+
+../src/alu_control_systemc.h:
+
+../src/alu_systemc.cpp:
+
+../src/alu_systemc.h:
+
+../src/dmem_systemc.cpp:
+
+../src/dmem_systemc.h:

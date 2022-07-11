@@ -5,14 +5,20 @@
 // Copyright   : made for digital tech II
 // Description : Hello World in C++, Ansi-style
 //============================================================================
-#include "MIPS_Processor.h"
 
-void MIPS_Processor::Behavioral()
+#include "MIPS_Processor.h"
+#include "instruction_memory_systemc.cpp"
+#include "control_unit_systemc.cpp"
+#include "register_file_systemc.cpp"
+#include "alu_control_systemc.cpp"
+#include "alu_systemc.cpp"
+#include "dmem_systemc.cpp"
+
+
+void MIPS_Processor::main()
 {
-    sc_signal <sc_lv<16>> pc_current;
-    sc_signal <sc_lv<16>> pc_next;
-    sc_signal <sc_lv<16>> pc2;
-    sc_signal <sc_lv<16>> instr;
+
+    sc_signal <sc_lv<16>> pc_current, pc_next, pc2, instr;
 
     sc_signal <sc_lv<2>> reg_dst, mem_to_reg, alu_op;
 
@@ -27,28 +33,22 @@ void MIPS_Processor::Behavioral()
     sc_signal <sc_lv<3>> reg_read_addr_2;
     sc_signal <sc_lv<16>> reg_read_data_2;
 
-    sc_signal <sc_lv<16>> sign_ext_im;
-    sc_signal <sc_lv<16>> read_data2;
-    sc_signal <sc_lv<16>> zero_ext_im;
-    sc_signal <sc_lv<16>> imm_ext;
-
-    sc_signal <bool> JRControl;
     sc_signal <sc_lv<3>> ALU_Control;
     sc_signal <sc_lv<16>> ALU_out;
-    sc_signal <bool> zero_flag;
 
-    sc_signal <sc_lv<16>> im_shift_1;
-    sc_signal <sc_lv<16>> PC_j;
-    sc_signal <sc_lv<16>> PC_beq;
-    sc_signal <sc_lv<16>> PC_4beq;
-    sc_signal <sc_lv<16>> PC_4beqj;
-    sc_signal <sc_lv<16>> PC_jr;
+    sc_signal <sc_lv<16>> sign_ext_im, read_data2, zero_ext_im, imm_ext;
+
+    sc_signal <bool> zero_flag, JRControl, beq_control;
+
+    sc_signal <sc_lv<16>> im_shift_1, PC_j, PC_beq, PC_4beq, PC_4beqj, PC_jr;
 
     sc_signal <sc_lv<15>> jump_shift_1;
     sc_signal <sc_lv<16>> mem_read_data;
     sc_signal <sc_lv<16>> no_sign_ext;
     sc_signal <bool> sign_or_zero;
     sc_signal <sc_lv<9>> tmp1;
+
+    sc_signal <sc_lv<1>> test;
 
     if (reset == 1)
         pc_current.write("x0000");
@@ -64,14 +64,14 @@ void MIPS_Processor::Behavioral()
     instruction_memory.pc(pc_current);
     instruction_memory.instruction(instr);
 
-    jump_shift_1.write(instr.range(13,0),0);
+    jump_shift_1.write(instr.read().range(13,0) & "0");
 
     // Create an instance of control_unit_systemc
     control_unit_systemc control_unit("control_unit_name");
 
     // Connect the IO ports of control_unit_systemc
     control_unit.reset(reset);
-    control_unit.opcode(instr.range(15,13));
+    control_unit.opcode(instr.read().range(15,13));
     control_unit.reg_dst(reg_dst);
     control_unit.mem_to_reg(mem_to_reg);
     control_unit.alu_op(alu_op);
@@ -85,13 +85,13 @@ void MIPS_Processor::Behavioral()
 
     if (reg_dst == "10")
         reg_write_dest.write(111);
-    else (reg_dst == "01")
-        reg_write_dest.write(instr.range(6,4));
+    else if(reg_dst == "01")
+        reg_write_dest.write(instr.read().range(6,4));
     else
-        reg_write_dest.write(instr.range(9,7));
+        reg_write_dest.write(instr.read().range(9,7));
 
-    reg_read_addr_1.write(instr.range(12,10));
-    reg_read_addr_2.write(instr.range(9,7));
+    reg_read_addr_1.write(instr.read().range(12,10));
+    reg_read_addr_2.write(instr.read().range(9,7));
 
     // Create an instance of register_file_systemc
     register_file_systemc register_file("register_file_name");
@@ -108,14 +108,14 @@ void MIPS_Processor::Behavioral()
     register_file.reg_read_data_2(reg_read_data_2);
 
     tmp1.write(others => instr[6]);
-    sign_ext_im.write(tmp1,instr.range(6,0));
-    zero_ext_im.write(000000000,instr.range(6,0));
+    sign_ext_im.write(instr.read().range(6,0) & tmp1);
+    zero_ext_im.write("000000000" & instr.read().range(6,0));
     if(sign_or_zero == 1)
         imm_ext.write(sign_ext_im);
     else
         imm_ext.write(zero_ext_im);
 
-    if(alu_op == 00 && instr.range(3,0) == 1000)
+    if(alu_op == 00 && instr.read().range(3,0) == 1000)
         JRControl.write(1);
     else
         JRControl.write(0);
@@ -125,7 +125,7 @@ void MIPS_Processor::Behavioral()
 
     // Connect the IO ports of alu_control_systemc
     alu_control.ALUOp(alu_op);
-    alu_control.ALU_Funct(instr.range(2,0));
+    alu_control.ALU_Funct(instr.read().range(2,0));
     alu_control.ALU_Control(ALU_Control);
 
     if(alu_src == 1)
@@ -143,22 +143,22 @@ void MIPS_Processor::Behavioral()
     alu.alu_result(ALU_out);
     alu.zero(zero_flag);
 
-    im_shift_1.write(imm_ext.range(14,0),0);
-    no_sign_ext.write(!im_shift_1 + x"0001");
+    im_shift_1.write(imm_ext.read().range(14,0) & "0");
+    no_sign_ext.write(!im_shift_1 + "x0001");
 
     if(im_shift_1[15] == 1)
         PC_beq.write(pc2 - no_sign_ext);
     else
         PC_beq.write(pc2 + im_shift_1);
 
-    beq_control.write(branch , zero_flag);
+    beq_control.write(branch & zero_flag);
 
-    if(beq_control == 1)
+    if(beq_control == "1")
         PC_4beq.write(PC_beq);
     else
         PC_4beq.write(pc2);
 
-    PC_j.write(pc2[15] , jump_shift_1);
+        PC_j.write(pc2.read().range(15,14) & jump_shift_1);
 
     if(jump == 1)
         PC_4beqj.write(PC_j);
@@ -173,15 +173,15 @@ void MIPS_Processor::Behavioral()
         pc_next.write(PC_4beqj);
 
     // Create an instance of data_memory_systemc
-    data_memory_systemc data_memory("data_memory_name");
+    dmem_systemc data_memory("data_memory_name");
 
     // Connect the IO ports of data_memory_systemc
     data_memory.clk(clk);
-    data_memory.mem_access_addr(ALU_out);
-    data_memory.mem_write_data(reg_read_data_2);
-    data_memory.mem_write_en(mem_write);
-    data_memory.mem_read(mem_read);
-    data_memory.mem_read_data(mem_read_data)
+    data_memory.address(ALU_out);
+    data_memory.write_data(reg_read_data_2);
+    data_memory.MemWrite(mem_write);
+    data_memory.MemRead(mem_read);
+    data_memory.read_data(mem_read_data);
 
     if(mem_to_reg == 10)
         reg_write_data.write(pc2);

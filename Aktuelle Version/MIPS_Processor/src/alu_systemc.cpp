@@ -12,13 +12,13 @@ void alu_systemc::Behavioral()
 
     switch (alu_control.read())
     {
-        case 000: result = a + b;         // add
+        case 000: result.write(a + b);         // add
             break;
-        case 001: result = a - b;         // sub
+        case 001: result.write(a - b);         // sub
             break;
-        case 010: result = a & b;         // and
+        case 010: result.write(a & b);         // and
             break;
-        case 011: result = a | b;         // or
+        case 011: result.write(a | b);         // or
             break;
         case 100:
             if (a<b)
