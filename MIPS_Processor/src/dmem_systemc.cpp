@@ -9,22 +9,25 @@
 
 void dmem_systemc::Behavioral()
 {
-	for(int i=0; i<=15; i++)
+
+	for(int i=0; i<=255; i++)
 	{
 		data_mem[i] = {0x00000000};
 	}
 
-	if (clk.read() == 1 && clk.event())
+	ram_addr = (mem_access_addr.read().range(8,1).to_uint());
+
+	if (clk.event())
 	{
 		if (mem_write_en.read() == 1)
 		{
-			data_mem[mem_access_addr.read().range(8,1).to_uint()] = mem_write_data;
+			data_mem[ram_addr] = mem_write_data;
 		}
 	}
 
 	if (mem_read.read() == 1)
 	{
-		mem_read_data.write(data_mem[mem_access_addr.read().range(8,1).to_uint()]);
+		mem_read_data.write(data_mem[ram_addr]);
 	}else
 	{
 		mem_read_data.write(0);
@@ -66,9 +69,11 @@ int sc_main(int argc, char* argv[])
     mem_read_data = "0000000000100001";
 
     mem_write_en = 1;
-    mem_read = 1;
+    mem_read = 0;
     clk = 1;
+    sc_start(10,SC_NS);
 
+    mem_read = 1;
     sc_start(10,SC_NS);
 
     return 0;
