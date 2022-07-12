@@ -1,0 +1,99 @@
+$date
+     Jul 12, 2022       17:42:47
+$end
+
+$version
+ SystemC 2.3.3-Accellera --- Jul 10 2022 11:05:37
+$end
+
+$timescale
+     1 ns
+$end
+
+$scope module SystemC $end
+$var wire    3  aaaaa  opcode [2:0]  $end
+$var wire    1  aaaab  reset       $end
+$var wire    2  aaaac  reg_dst [1:0]  $end
+$var wire    2  aaaad  mem_to_reg [1:0]  $end
+$var wire    2  aaaae  alu_op [1:0]  $end
+$var wire    1  aaaaf  jump       $end
+$var wire    1  aaaag  branch       $end
+$var wire    1  aaaah  mem_read       $end
+$var wire    1  aaaai  mem_write       $end
+$var wire    1  aaaaj  alu_src       $end
+$var wire    1  aaaak  reg_write       $end
+$var wire    1  aaaal  sign_or_zero       $end
+$upscope $end
+$enddefinitions  $end
+
+$comment
+All initial values are dumped below at time 0 sec = 0 timescale units.
+$end
+
+$dumpvars
+b0 aaaaa
+1aaaab
+b0 aaaac
+b0 aaaad
+b0 aaaae
+0aaaaf
+0aaaag
+0aaaah
+0aaaai
+0aaaaj
+0aaaak
+1aaaal
+$end
+
+#10
+b1 aaaaa
+0aaaab
+b10 aaaae
+1aaaaj
+1aaaak
+0aaaal
+
+#20
+b10 aaaaa
+b0 aaaae
+1aaaaf
+0aaaaj
+0aaaak
+1aaaal
+
+#30
+b11 aaaaa
+b10 aaaac
+b10 aaaad
+1aaaak
+
+#40
+b100 aaaaa
+b0 aaaac
+b1 aaaad
+b11 aaaae
+0aaaaf
+1aaaah
+1aaaaj
+
+#50
+b101 aaaaa
+b0 aaaad
+0aaaah
+1aaaai
+0aaaak
+
+#60
+b110 aaaaa
+b1 aaaae
+1aaaag
+0aaaai
+0aaaaj
+
+#70
+b111 aaaaa
+b11 aaaae
+0aaaag
+1aaaaj
+1aaaak
+
