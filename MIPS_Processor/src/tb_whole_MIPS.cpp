@@ -5,6 +5,9 @@
  *      Author: paul hartung
  */
 
+
+// IST NUR EIN TEST GEWESEN
+
 #include "tb_whole_MIPS.h"
 
 void tb_whole_MIPS::main()

@@ -22,11 +22,11 @@ SC_MODULE(MIPS_Processor)
     SC_CTOR(MIPS_Processor)
     {
 
-        SC_METHOD(main);
+        SC_METHOD(Behavioral);
         sensitive << clk << reset;
     }
 
-    void main();
+    void Behavioral();
 };
 
 #endif
